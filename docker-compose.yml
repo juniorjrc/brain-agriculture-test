@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14.9
+    container_name: postgres-brain-agriculture
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: brain-agriculture-usr
+      POSTGRES_PASSWORD: brain-agriculture-pwd
+      POSTGRES_DB: brain-agriculture
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db-install-scripts:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres-data:
