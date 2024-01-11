@@ -42,3 +42,8 @@ Route.post(
 Route.post("/planted-crops", "PlantedCropsController.create");
 Route.put("/planted-crops/:id", "PlantedCropsController.update");
 Route.delete("/planted-crops/:id", "PlantedCropsController.remove");
+
+/**
+ * Producer routes
+ */
+Route.get("/producer", "ProducerController.findAll");
