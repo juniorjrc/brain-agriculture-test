@@ -15,6 +15,10 @@ export default class PlantedCrops extends BaseModel {
 
   @manyToMany(() => Producer, {
     pivotTable: "producer_planted_crops",
+    localKey: "plantedCropId",
+    pivotForeignKey: "planted_crop_id",
+    relatedKey: "producerId",
+    pivotRelatedForeignKey: "producer_id",
   })
   public producers: ManyToMany<typeof Producer>;
 }

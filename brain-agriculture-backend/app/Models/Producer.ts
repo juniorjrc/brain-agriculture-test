@@ -1,11 +1,9 @@
 import {
   BaseModel,
   BelongsTo,
-  HasOne,
   ManyToMany,
   belongsTo,
   column,
-  hasOne,
   manyToMany,
 } from "@ioc:Adonis/Lucid/Orm";
 import DocumentType from "./DocumentType";
@@ -18,7 +16,7 @@ export default class Producer extends BaseModel {
   public producerId: number;
 
   @column({ serializeAs: null })
-  public documentTypeId: string;
+  public documentTypeId: number;
 
   @belongsTo(() => DocumentType, {
     foreignKey: "documentTypeId",
@@ -44,13 +42,17 @@ export default class Producer extends BaseModel {
   public totalArea: number;
 
   @column({ serializeAs: "arableArea" })
-  public atableArea: string;
+  public arableArea: number;
 
   @column({ serializeAs: "vegetationArea" })
-  public vegetationArea: string;
+  public vegetationArea: number;
 
   @manyToMany(() => PlantedCrops, {
     pivotTable: "producer_planted_crops",
+    localKey: "producerId",
+    pivotForeignKey: "producer_id",
+    relatedKey: "plantedCropId",
+    pivotRelatedForeignKey: "planted_crop_id",
   })
   public plantedCrops: ManyToMany<typeof PlantedCrops>;
 }

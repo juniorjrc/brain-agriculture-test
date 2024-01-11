@@ -29,7 +29,7 @@ test.group("Planted crops", (group) => {
   test("Must not create an planted crop when name already exists", mustNotCreatedPlantedCropWithSameName);
   test(
     "Must throw exception when plantedCropName field has more than max lenght",
-    mustReturnUnprocessableEntityErrorWhenCreatePlantedCropWithMaxLength
+    mustReturnBadRequestWhenCreatePlantedCropWithMaxLength
   );
 });
 
@@ -103,14 +103,14 @@ async function mustNotCreatedPlantedCropWithSameName(assert) {
   assert.equal(body.code, "BAD_REQUEST")
 }
 
-async function mustReturnUnprocessableEntityErrorWhenCreatePlantedCropWithMaxLength(
+async function mustReturnBadRequestWhenCreatePlantedCropWithMaxLength(
   assert
 ) {
   const { plantedCropName } = await PlantedCropsFactory.create();
   const { body } = await supertest(BASE_URL)
     .post(PLANTED_CROPS_CONTEXT)
     .send({ plantedCropName })
-    .expect(BrainAgricultureHttpStatus.UNPROCESSABLE_ENTITY);
+    .expect(BrainAgricultureHttpStatus.BAD_REQUEST);
   assert.equal(
     body.errors[0].message,
     "The plantedCropName field must have a maximum of 20 characters."
