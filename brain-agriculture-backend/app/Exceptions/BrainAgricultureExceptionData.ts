@@ -1,7 +1,7 @@
 import { Exception } from "@adonisjs/core/build/standalone"
 
 export default class BrainAgricultureExceptionData {
-    public code: string
+    public code: string 
     public message: string
     public status: number
     public timestamp: string

@@ -26,6 +26,7 @@ test.group("Planted crops", (group) => {
     mustReturnNotFoundWhenNotFoundPlantedCropByName
   );
   test("Must create an planted crop", mustCreatePlantedCrop);
+  test("Must not create an planted crop when name already exists", mustNotCreatedPlantedCropWithSameName);
   test(
     "Must throw exception when plantedCropName field has more than max lenght",
     mustReturnUnprocessableEntityErrorWhenCreatePlantedCropWithMaxLength
@@ -91,6 +92,15 @@ async function mustCreatePlantedCrop(assert) {
     body.plantedCrop.plantedCropName,
     plantedCropPayload.plantedCropName
   );
+}
+
+async function mustNotCreatedPlantedCropWithSameName(assert) {
+  const plantedCropPayload = { plantedCropName: "Milho verde" };
+  const { body } = await supertest(BASE_URL)
+    .post(PLANTED_CROPS_CONTEXT)
+    .send(plantedCropPayload)
+    .expect(BrainAgricultureHttpStatus.BAD_REQUEST);
+  assert.equal(body.code, "BAD_REQUEST")
 }
 
 async function mustReturnUnprocessableEntityErrorWhenCreatePlantedCropWithMaxLength(
