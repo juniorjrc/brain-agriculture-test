@@ -18,18 +18,27 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route from "@ioc:Adonis/Core/Route";
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+Route.get("/", async () => {
+  return { hello: "world" };
+});
+
+/**
+ * Document type routes
+ */
+Route.get("/document-type", "DocumentTypeController.findAll");
+Route.get("/document-type/:id", "DocumentTypeController.findById");
 
 /**
  * Planted crops routes
  */
-Route.get('/planted-crops', 'PlantedCropsController.findAll')
-Route.get('/planted-crops/:id', 'PlantedCropsController.findById')
-Route.post('/planted-crops/search-by-name', 'PlantedCropsController.findByPlantedCropName')
-Route.post('/planted-crops', 'PlantedCropsController.create')
-Route.put('/planted-crops/:id', 'PlantedCropsController.update')
-Route.delete('/planted-crops/:id', 'PlantedCropsController.remove')
+Route.get("/planted-crops", "PlantedCropsController.findAll");
+Route.get("/planted-crops/:id", "PlantedCropsController.findById");
+Route.post(
+  "/planted-crops/search-by-name",
+  "PlantedCropsController.findByPlantedCropName"
+);
+Route.post("/planted-crops", "PlantedCropsController.create");
+Route.put("/planted-crops/:id", "PlantedCropsController.update");
+Route.delete("/planted-crops/:id", "PlantedCropsController.remove");
