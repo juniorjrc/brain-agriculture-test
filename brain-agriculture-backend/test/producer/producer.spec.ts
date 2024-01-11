@@ -6,6 +6,7 @@ import {
   InvalidProducerWithArableAreaPlusVegetationAreaGreatherThenTotalArea,
   InvalidProducerWithCnpjFactory,
   InvalidProducerWithCpfFactory,
+  ValidProducerToUpdate,
   ValidProducerWithCnpjFactory,
   ValidProducerWithCpfFactory,
 } from "Database/factories";
@@ -36,6 +37,13 @@ test.group("Producers tests", (group) => {
     "Must not create producer with arable area plus vegetation area greather then total area",
     mustNotCreateProducerWithArableAreaPlusVegetationAreaGreatherThenTotalArea
   );
+  test("Must update producer correctly", mustUpdateProducerCorrectly);
+  test(
+    "Must not update producer when not found by id",
+    mustNotUpdateProducerWhenNotFoundById
+  );
+  test("Must remove producer correctly", mustRemoveProducerCorrectly);
+  test("Must not remove producer when not found by id", mustNotRemoveProducerWhenNotFoundById);
 });
 
 async function mustGetAllProducers(assert) {
@@ -221,4 +229,83 @@ async function mustNotCreateProducerWithArableAreaPlusVegetationAreaGreatherThen
     body.errors[0].message,
     "The sum of the arable area plus the vegetable area is greater than the total area in hectares"
   );
+}
+
+async function mustUpdateProducerCorrectly(assert) {
+  const {
+    documentTypeId,
+    documentNumber,
+    producerName,
+    farmName,
+    city,
+    state,
+    totalArea,
+    arableArea,
+    vegetationArea,
+    plantedCrops,
+  } = await ValidProducerToUpdate.create();
+
+  const { body } = await supertest(BASE_URL)
+    .put(`${PRODUCER_CONTEXT}/1`)
+    .send({
+      documentTypeId,
+      documentNumber,
+      producerName,
+      farmName,
+      city,
+      state,
+      totalArea,
+      arableArea,
+      vegetationArea,
+      plantedCrops,
+    })
+    .expect(BrainAgricultureHttpStatus.OK);
+  assert.exists(body.producer, "Undefined producer");
+  assert.equal(body.producer.producerName, producerName);
+}
+
+async function mustNotUpdateProducerWhenNotFoundById(assert) {
+  const {
+    documentTypeId,
+    documentNumber,
+    producerName,
+    farmName,
+    city,
+    state,
+    totalArea,
+    arableArea,
+    vegetationArea,
+    plantedCrops,
+  } = await ValidProducerToUpdate.create();
+
+  const { body } = await supertest(BASE_URL)
+    .put(`${PRODUCER_CONTEXT}/50000`)
+    .send({
+      documentTypeId,
+      documentNumber,
+      producerName,
+      farmName,
+      city,
+      state,
+      totalArea,
+      arableArea,
+      vegetationArea,
+      plantedCrops,
+    })
+    .expect(BrainAgricultureHttpStatus.NOT_FOUND);
+  assert.equal(body.message, "Producer not found with given id 50000");
+}
+
+async function mustRemoveProducerCorrectly(assert) {
+  const { body } = await supertest(BASE_URL)
+    .delete(`${PRODUCER_CONTEXT}/1`)
+    .expect(BrainAgricultureHttpStatus.OK);
+  assert.equal(body.message, "Producer deleted successfully");
+}
+
+async function mustNotRemoveProducerWhenNotFoundById(assert) {
+  const { body } = await supertest(BASE_URL)
+    .delete(`${PRODUCER_CONTEXT}/50000`)
+    .expect(BrainAgricultureHttpStatus.NOT_FOUND);
+  assert.equal(body.message, "Producer not found with given id 50000");
 }

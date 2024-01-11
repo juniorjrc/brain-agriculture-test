@@ -97,3 +97,22 @@ export const InvalidProducerWithArableAreaPlusVegetationAreaGreatherThenTotalAre
     },
   };
 }).build();
+
+export const ValidProducerToUpdate = Factory.define(Producer, () => {
+  return {
+    documentTypeId: CPF,
+    documentNumber: "153.061.810-07",
+    producerName: "TST UPDATED",
+    farmName: "HARVEST MOON",
+    city: "SÃO PAULO",
+    state: "SÃO PAULO",
+    totalArea: 1000.0,
+    arableArea: 50.15,
+    vegetationArea: 10.1,
+    plantedCrops: [
+      {
+        plantedCropId: 1
+      }
+    ]
+  };
+}).build();

@@ -26,6 +26,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
 
   public async handle(error: Exception, ctx: HttpContextContract) {
     if (error.status === 422) {
+      error.code = "VALIDATION_EXCEPTION"
       error.message =
         "Error in the process of validating the requisition fields. Check 'errors' list";
       return ctx.response

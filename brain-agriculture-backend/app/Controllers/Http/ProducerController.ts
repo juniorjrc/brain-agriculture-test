@@ -31,8 +31,8 @@ export default class ProducerController {
     const { id } = params;
     const producer = await Producer.query()
       .where("producerId", id)
-      .preload("documentType") // Carrega o relacionamento documentType
-      .preload("plantedCrops") // Carrega o relacionamento plantedCrops
+      .preload("documentType")
+      .preload("plantedCrops")
       .first();
     if (!producer)
       throw new BrainAgricultureNotFoundException("Producer not found");
@@ -70,5 +70,60 @@ export default class ProducerController {
         `Error in create producer. Details ${error.message}`
       );
     }
+  }
+
+  /**
+   * Update a producer crop via PUT.
+   *
+   * @param {HttpContextContract} param - id of the producer to be updated
+   * @param {HttpContextContract} request.producerPayload - request body of producer to be updated
+   * @param {HttpContextContract} request.plantedCropsPayload - List of planted crops used by producer
+   *
+   * @returns {PlantedCrops}
+   */
+  public async update({ params, request, response }: HttpContextContract) {
+    const { id } = params;
+    const producer = await Producer.findBy("producerId", id);
+
+    if (!producer)
+      throw new BrainAgricultureNotFoundException(
+        `Producer not found with given id ${id}`
+      );
+
+    await producer.related("plantedCrops").detach();
+    const plantedCropsPayload = request.input("plantedCrops", []);
+
+    if (plantedCropsPayload.length > 0) {
+      await producer
+        .related("plantedCrops")
+        .attach(plantedCropsPayload.map((c) => c.plantedCropId));
+    }
+
+    const producerPayload = await request.validate(CreateProducerValidator);
+    producer.merge(producerPayload);
+    await producer.save();
+
+    return response.ok({ producer });
+  }
+
+  /**
+   * Remove a producer by id via DELETE.
+   *
+   * @param {HttpContextContract} param - id of the producer to be removed
+   *
+   * @returns {string} - message of success in delete
+   */
+  public async remove({ params, response }: HttpContextContract) {
+    const { id } = params;
+    const producer = await Producer.findBy("producerId", id);
+    if (!producer)
+      throw new BrainAgricultureNotFoundException(
+        `Producer not found with given id ${id}`
+      );
+    if (producer.plantedCrops !== undefined) {
+      await producer.related("plantedCrops").detach();
+    }
+    await producer.delete();
+    return response.ok({message: "Producer deleted successfully"});
   }
 }
