@@ -19,8 +19,8 @@ Project created to build an application called brain-agriculture, the aim of whi
 
 ## Pre-requisites for running the application
 
-1. Docker and docker compose
-2. Node JS 14.20.0 with NPM version 6.14.17
+1. [Docker and docker compose](https://docs.docker.com/get-docker/)
+2. [Node JS 14.20.0 with NPM version 6.14.17](https://nodejs.org/en/blog/release/v14.20.0)
 
 ## Step-by-step backend installation
 
