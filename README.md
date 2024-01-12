@@ -27,7 +27,7 @@ Project created to build an application called brain-agriculture, the aim of whi
 
 ### Local url: <http://localhost:3333>
 
-| Verbo HTTP | Contexto              | Descrição                                      |
+| HTTP Verb  | Context               | Description                                    |
 |------------|-----------------------|------------------------------------------------|
 | GET        | /document-type        | Get all document types                         |
 | GET        | /document-type/:id    | Get document type by id                        |
