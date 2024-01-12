@@ -62,3 +62,7 @@ Project created to build an application called brain-agriculture, the aim of whi
 | GET        | /dashbooard/total-crops-by-type | Get total crops by type              |
 | GET        | /dashbooard/land-use-summary | Get land use summay                     |
 |            |                       |                                                |
+
+![POSTMAN image](https://miro.medium.com/v2/resize:fit:720/format:webp/1*UjfpcPx0p410o13vpB7mlQ.png)
+
+## [Click here to check postman collection examples](https://documenter.getpostman.com/view/6642725/2s9YsMArWS)
