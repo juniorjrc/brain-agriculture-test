@@ -51,3 +51,12 @@ Route.get("/producer/:id", "ProducerController.findById");
 Route.post("/producer", "ProducerController.create");
 Route.put("/producer/:id", "ProducerController.update");
 Route.delete("/producer/:id", "ProducerController.remove");
+
+/**
+ * Dashboard routes
+ */
+Route.get("/dashboard/total", "DashboardController.totalProducers");
+Route.get("/dashboard/total-farm-area", "DashboardController.totalFarmArea");
+Route.get("/dashboard/total-producers-by-state", "DashboardController.producersByState");
+Route.get("/dashboard/total-crops-by-type", "DashboardController.cropsCountByType");
+Route.get("/dashboard/land-use-summary", "DashboardController.landUseSummary");
