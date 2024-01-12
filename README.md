@@ -6,6 +6,17 @@ Project created to build an application called brain-agriculture, the aim of whi
 
 ![ER diagram](ER_DIAGRAM.png)
 
+## Local Database connection configuration
+
+| Property                | Value                   |
+|-------------------------|-------------------------|
+| Address                 | <http://localhost:3333> |
+| User                    | brain-agriculture-usr   |
+| Password                | brain-agriculture-pwd   |
+| Database                | brain-agriculture       |
+| Schema                  | brain_agriculture       |
+|                         |                         |
+
 ## Pre-requisites for running the application
 
 1. Docker and docker compose
